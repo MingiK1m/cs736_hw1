@@ -1,0 +1,13 @@
+0. check the server's IP, using ifconfig.
+1. execute tcp_server.
+2. execute tcp_client with arguements.
+Usage : tcp_client [server_ip] [number_of_bytes_to_send] [number_of_iteration]
+ex) ./tcp_client "128.105.37.192" 524288 5
+3. result will be printed on the client side.
+ex)
+wt 524288, rd 524288   -> 0      sec, 89457776  nsec
+wt 524288, rd 524288   -> 0      sec, 89453637  nsec
+wt 524288, rd 524288   -> 0      sec, 89461337  nsec
+wt 524288, rd 524288   -> 0      sec, 89466099  nsec
+wt 524288, rd 524288   -> 0      sec, 89359087  nsec
+* note : the reults are a round trip time.
