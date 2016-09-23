@@ -1,0 +1,25 @@
+Usage : pipe [number_of_bytes] [number_of_iteration]
+
+ex) ./pipe 1024 10
+
+results)
+[0]child  : sent 1024   , 1474638010     sec, 639819596  nsec
+[0]parent : recv 1024   , 1474638010     sec, 639825981  nsec
+[1]child  : sent 1024   , 1474638010     sec, 640996318  nsec
+[1]parent : recv 1024   , 1474638010     sec, 641032409  nsec
+[2]child  : sent 1024   , 1474638010     sec, 642127125  nsec
+[2]parent : recv 1024   , 1474638010     sec, 642146374  nsec
+[3]child  : sent 1024   , 1474638010     sec, 643231158  nsec
+[3]parent : recv 1024   , 1474638010     sec, 643249058  nsec
+[4]child  : sent 1024   , 1474638010     sec, 644328805  nsec
+[4]parent : recv 1024   , 1474638010     sec, 644346786  nsec
+[5]child  : sent 1024   , 1474638010     sec, 645427033  nsec
+[5]parent : recv 1024   , 1474638010     sec, 645447015  nsec
+[6]child  : sent 1024   , 1474638010     sec, 646550680  nsec
+[6]parent : recv 1024   , 1474638010     sec, 646558830  nsec
+[7]child  : sent 1024   , 1474638010     sec, 647640399  nsec
+[7]parent : recv 1024   , 1474638010     sec, 647677148  nsec
+[8]child  : sent 1024   , 1474638010     sec, 648757924  nsec
+[8]parent : recv 1024   , 1474638010     sec, 648775906  nsec
+[9]child  : sent 1024   , 1474638010     sec, 649851710  nsec
+[9]parent : recv 1024   , 1474638010     sec, 649869715  nsec
