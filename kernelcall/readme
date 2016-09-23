@@ -1,0 +1,9 @@
+Call some functions 1000 times.
+
+result)
+1000 times iterated
+EMPTY TIME ->                   Avg: 16 nsec, Min: 12 nsec, Max: 30 nsec
+getpid() KERNEL CALL TIME ->    Avg: 17 nsec, Min: 13 nsec, Max: 1070 nsec
+getgid() KERNEL CALL TIME ->    Avg: 71 nsec, Min: 50 nsec, Max: 9845 nsec
+malloc() KERNEL CALL TIME ->    Avg: 62 nsec, Min: 19 nsec, Max: 38707 nsec
+open() KERNEL CALL TIME ->      Avg: 8457 nsec, Min: 8154 nsec, Max: 73067 nsec
