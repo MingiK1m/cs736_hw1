@@ -15,6 +15,9 @@ void main(int argc, char *argv[]){
     int wt_size, rd_size;
 
     struct timespec time;
+    unsigned long min_dif = -1;
+    
+    double throughput = 0;
 
     int pipe_fd[2]; // 0 : read / 1 : write
 
@@ -44,6 +47,10 @@ void main(int argc, char *argv[]){
 	    GET_TIME(&time);
 	    wt_size = write(pipe_fd[1], buffer, data_size);
 	    printf("[%d]child  : sent %d\t, %ld\t sec, %ld\t nsec\n", i, wt_size, time.tv_sec, time.tv_nsec);
+	    // send time struct
+	    memcpy(buffer, &time, sizeof(time));
+	    write(pipe_fd[1], buffer, sizeof(time));
+	    // wait for ready.
 	    usleep(1000);
 	}
 	
@@ -52,10 +59,24 @@ void main(int argc, char *argv[]){
 	default : // parent process (read)
 	close(pipe_fd[1]);
 	for(i=0;i<iter;i++){
+	    struct timespec recv_time;
+	    long nsec_dif;
+
 	    rd_size = read(pipe_fd[0], buffer, data_size);
 	    GET_TIME(&time);
 	    printf("[%d]parent : recv %d\t, %ld\t sec, %ld\t nsec\n", i, rd_size, time.tv_sec, time.tv_nsec);
+	    
+	    // recv time struct
+	    read(pipe_fd[0], buffer, sizeof(recv_time));
+	    memcpy(&recv_time, buffer, sizeof(recv_time));
+
+	    nsec_dif = time.tv_nsec - recv_time.tv_nsec;
+	    if(min_dif>nsec_dif) min_dif = nsec_dif;
 	}
+	
+	throughput = ((double)data_size/min_dif)*1e6; // ms
+
+	printf("%d tried, minimum time : %ld nanoseconds, throughput : %f bytes/ms\n",iter,min_dif,throughput);
 
 	exit(0);
     }

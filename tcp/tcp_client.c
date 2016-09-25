@@ -23,6 +23,8 @@ int main(int argc, char *argv[]){
     struct timespec start, end;
     time_t sec_dif;
     long nsec_dif;
+    unsigned long min_dif = -1;
+    double throughput = 0;
 
     // check args
     if(argc != 4){
@@ -80,7 +82,12 @@ int main(int argc, char *argv[]){
         nsec_dif = end.tv_nsec - start.tv_nsec;
 
         printf("%d\t sec, %ld\tnsec\n", sec_dif, nsec_dif);
+
+	if(min_dif>nsec_dif) min_dif = nsec_dif;
     }
+
+    throughput = ((double)data_size/min_dif)*1e6;
+    printf("%d tries, minimum time : %ld, throughput : %f bytes/ms\n", iter, min_dif, throughput);
 
     return 0;
 }
