@@ -15,9 +15,12 @@ int main(int argc, char *argv[]){
     struct sockaddr_in server_addr;
     struct sockaddr_in client_addr;
     char recv_buff[BUFF_SIZE];
-    int data_size, rd_data_size, wt_data_size;
+    long data_size, rd_data_size, wt_data_size;
     int wt_offset;
     int rd_size, wt_size;
+    int i;
+
+    char loading_str[6] = {'-', '\\', '/', '-', '\\', '/'};
 
     int flag;
     int client_addr_size;
@@ -41,7 +44,7 @@ int main(int argc, char *argv[]){
     }
 
 
-    if(bind(sock_server, &server_addr, sizeof(server_addr)) == -1){ // bind ip and socket
+    if(bind(sock_server, (const struct sockaddr *)&server_addr, sizeof(server_addr)) == -1){ // bind ip and socket
 	perror("Error on bind()");
 	exit(1);
     }
@@ -52,35 +55,23 @@ int main(int argc, char *argv[]){
     }
 
     client_addr_size = sizeof(client_addr);
-    sock_client = accept(sock_server, &client_addr, &client_addr_size); // accept client connection
+    sock_client = accept(sock_server, (struct sockaddr *)&client_addr, &client_addr_size); // accept client connection
 
     if(sock_client == -1){
 	perror("Error on accept()");
 	exit(1);
     }
 
-    printf("Connection established\n");
-
-    read(sock_client, recv_buff, BUFF_SIZE);
-    data_size = strtol(recv_buff, NULL, 10);
-
-    printf("data size = %d\n", data_size);
-
-    while(1){
-	rd_data_size = 0;
-
-	while(rd_data_size < data_size){
-	    assert(rd_size = read(sock_client, recv_buff, BUFF_SIZE));
-	    rd_data_size += rd_size;
-	}
-
-//	printf("read %d\n", rd_data_size);
-	wt_data_size = data_size;
-	wt_offset = 0;
-
-	wt_size = write(sock_client, recv_buff, wt_data_size);
-//	printf("write %d\n", wt_size);
+    rd_data_size = 0;
+    i = 0;
+    while(rd_data_size != 1024*1024*1024){
+        assert(rd_size = read(sock_client, recv_buff, BUFF_SIZE));
+	rd_data_size += rd_size;
+//	printf("receiving %c, %ld\r", loading_str[i%6], rd_data_size);
+	i++;
     }
+    wt_size = write(sock_client, recv_buff, 1);
+    printf("\nwrite ack\n");
 
     close(sock_client);
 }

@@ -5,7 +5,7 @@
 #include <fcntl.h>
 
 //#define DEBUG_PRINT
-#define ITER_COUNT 1000
+#define ITER_COUNT 2
 
 /*
     To check time interval for doing nothing.
@@ -43,9 +43,9 @@ void test_time_interval(){
 }
 
 /*
-    To check time interval for simple kernel call (getpid)
+    To check time interval for simple kernel call (getuid)
 */
-void test_getpid_interval(){
+void test_getuid_interval(){
 
     struct timespec start, end;
     int i;
@@ -62,7 +62,7 @@ void test_getpid_interval(){
 	clock_gettime(CLOCK_REALTIME, &start);
 
 	// INSERT KERNEL CALL HERE //
-	getpid();
+	getuid();
 
 	clock_gettime(CLOCK_REALTIME, &end);
 
@@ -78,7 +78,7 @@ void test_getpid_interval(){
 #endif
     }
 
-    printf("getpid() KERNEL CALL TIME ->\tAvg: %ld nsec, Min: %ld nsec, Max: %ld nsec\n", nsec_total/ITER_COUNT, nsec_min, nsec_max);
+    printf("getuid() KERNEL CALL TIME ->\tAvg: %ld nsec, Min: %ld nsec, Max: %ld nsec\n", nsec_total/ITER_COUNT, nsec_min, nsec_max);
 }
 
 /*
@@ -207,8 +207,6 @@ void main(){
     printf("%d times iterated\n", ITER_COUNT);
 
     test_time_interval();
-    test_getpid_interval();
+    test_getuid_interval();
     test_getgid_interval();
-    test_malloc_interval();
-    test_openfile_interval();
 }
